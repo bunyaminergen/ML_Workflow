@@ -1,0 +1,671 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Data Analyses Plan</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="a3fae702-89db-41f2-a6ae-77ba9b39900c" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/nasa_new_york_city_grid.jpg" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://www.notion.so/icons/document_gray.svg"/></div><h1 class="page-title">Data Analyses Plan</h1></header><div class="page-body"><p id="4de55da6-f9b5-459a-82a9-cd11058081ff" class="">Daha cok Research icin kullaniliyor.</p><p id="332ea704-9915-4acd-89a0-644ba84b517c" class="">Detayli incelenip workflow’a eklenecek konular vb var mi bakilabilir.</p><figure id="5c4fedbf-ba1d-4e7f-83f0-6628479ac3ae"><a href="https://www.dataversity.net/writing-a-data-management-plan/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Writing a Data Management Plan - DATAVERSITY</div><div class="bookmark-description">The goal of a Data Management plan is to consider the many aspects of Data Management before a research project begins.</div></div><div class="bookmark-href"><img src="https://www.dataversity.net/wp-content/uploads/2015/10/DV-R-1025-Transparent.png?x38402" class="icon bookmark-icon"/>https://www.dataversity.net/writing-a-data-management-plan/</div></div><img src="https://dv-website.s3.amazonaws.com/uploads/2022/08/kf_writingadatamanagementplan_aug22.jpg" class="bookmark-image"/></a></figure><figure id="eeb853c7-e677-4357-9e16-fb480d543999"><a href="https://en.wikipedia.org/wiki/Data_management_plan" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Data management plan</div><div class="bookmark-description">A data management plan or DMP is a formal document that outlines how data are to be handled both during a research project, and after the project is completed.&amp;#91;1&amp;#93; The goal of a data management plan is to consider the many aspects of data management, metadata generation, data preservation, and analysis before the project begins;&amp;#91;2&amp;#93; this may lead to data being well-managed in the present,&amp;#91;citation needed&amp;#93; and prepared for preservation in the future.&amp;#91;2&amp;#93;</div></div><div class="bookmark-href"><img src="https://en.wikipedia.org/static/apple-touch/wikipedia.png" class="icon bookmark-icon"/>https://en.wikipedia.org/wiki/Data_management_plan</div></div></a></figure><figure id="36667831-aede-470c-a11d-3a60b0f1b5d3"><a href="https://www.google.com/search?q=data+management+and+analysis+plan&amp;oq=data+management+and+analysis+plan&amp;aqs=chrome.0.69i59j0i22i30l3j0i390l5.1173j0j7&amp;sourceid=chrome&amp;ie=UTF-8" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">data management and analysis plan - Google Search</div></div><div class="bookmark-href"><img src="https://www.google.com/favicon.ico" class="icon bookmark-icon"/>https://www.google.com/search?q=data+management+and+analysis+plan&amp;oq=data+management+and+analysis+plan&amp;aqs=chrome.0.69i59j0i22i30l3j0i390l5.1173j0j7&amp;sourceid=chrome&amp;ie=UTF-8</div></div></a></figure><figure id="e4a08a5d-fafc-40a4-8d4a-bbf9209c6c12"><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4552232/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">NCBI - WWW Error Blocked Diagnostic</div></div><div class="bookmark-href">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4552232/</div></div></a></figure><figure id="50c3a6be-3a53-4f1a-a89f-2c07b2c95d14"><div class="source"><a href="https://nceph.anu.edu.au/files/Data_Analysis_Plan_Guide_20131125_0.pdf">https://nceph.anu.edu.au/files/Data_Analysis_Plan_Guide_20131125_0.pdf</a></div></figure><h1 id="057f0e2a-79ee-43cd-a544-64feb6de7ffc" class=""><details open=""><summary>Harvard</summary></details></h1><div class="indented"><figure id="73acbb7b-46a4-43a9-ae1a-818daa56a6c8"><a href="https://datamanagement.hms.harvard.edu/plan-design/data-management-plans" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Data Management Plans</div><div class="bookmark-description">The National Institutes of Health (NIH) has issued its Final NIH Policy for Data Management and Sharing Plans (DMSP) to promote the management and sharing of scientific data generated from NIH-funded or conducted research. This policy will require the submission of Data Management and Sharing Plans at the time of grant application, effective January 25, 2023. See more under NIH Data Management and Sharing Policy (2023).</div></div><div class="bookmark-href"><img src="https://datamanagement.hms.harvard.edu/themes/custom/hms_mods/favicon.ico" class="icon bookmark-icon"/>https://datamanagement.hms.harvard.edu/plan-design/data-management-plans</div></div></a></figure></div><h1 id="e10ab292-e9d0-4b98-b07d-7a62eea674d3" class=""><details open=""><summary>MIT</summary></details></h1><div class="indented"><figure id="624f0423-5a24-4985-8381-d6311be27c19"><a href="https://libraries.mit.edu/data-management/plan/write/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Write a data management plan | Data management</div><div class="bookmark-description">A data management plan (DMP) will help you manage your data, meet funder requirements, and help others use your data if shared. The DMPTool is a web-based tool that helps you construct data management plans using templates that address specific funder requirements. From within this tool, you can save your plans, access MIT-specific information &amp; resources, […]</div></div><div class="bookmark-href"><img src="https://libraries.mit.edu/favicon.ico" class="icon bookmark-icon"/>https://libraries.mit.edu/data-management/plan/write/</div></div><img src="https://libraries.mit.edu/data-management/wp-content/themes/libraries/images/mit-libraries-logo-black-yellow-1200-1200.png" class="bookmark-image"/></a></figure><figure id="d2ba5a69-3c87-4994-9340-767487fb31b2"><a href="https://dmptool.org/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">DMPTool</div></div><div class="bookmark-href"><img src="https://dmptool.org/assets/favicon-32x32-3bab4827fc6ed9c04699973ef51a2c2167ac931ce385ae843a2238a28cfa0f4b.png" class="icon bookmark-icon"/>https://dmptool.org/</div></div></a></figure><figure id="d864bc60-af6c-4889-a0bd-3131b9fe274c"><div class="source"><a href="https://dmptool.org/plans/83986/export.pdf">https://dmptool.org/plans/83986/export.pdf</a></div></figure><figure id="6fdd6668-f46c-4650-86df-59a158056300"><div class="source"><a href="https://dmptool.org/plans/83986/export.pdf">https://dmptool.org/plans/83986/export.pdf</a></div></figure></div><h1 id="0ce2973c-554c-46d7-9a2e-2e87d658b1b8" class=""><details open=""><summary>Stanford</summary></details></h1><div class="indented"><figure id="45e9c87b-953b-483d-a330-35b062984304"><a href="https://library.stanford.edu/research/data-management-services/data-management-plans" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Data management plans</div><div class="bookmark-description">Information about creating data management plans for research use and submitting those plans to funding agencies with grant proposals.</div></div><div class="bookmark-href"><img src="https://library.stanford.edu/sites/all/themes/sulair2016/favicon.ico" class="icon bookmark-icon"/>https://library.stanford.edu/research/data-management-services/data-management-plans</div></div></a></figure><figure id="8eba0380-3886-4888-a40f-be92849533ab"><div class="source"><a href="Data%20Analyses%20Plan%20a3fae70289db41f2a6ae77ba9b39900c/DMP_Self-Assessment_Questionnaire_v4.pdf">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5be708c3-696b-4c53-adb5-0fb29191dd61/DMP_Self-Assessment_Questionnaire_v4.pdf</a></div></figure></div><h1 id="e056098d-d856-4208-b5ac-5e826ff39369" class=""><details open=""><summary>University of Minnesota</summary></details></h1><div class="indented"><figure id="2decfadf-70ae-46fe-bd95-3571fe3094eb"><a href="https://www.lib.umn.edu/services/data/dmp-examples" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Examples of data management plans | University of Minnesota Libraries</div><div class="bookmark-description">These examples of data management plans (DMPs) were provided by University of Minnesota researchers. They feature different elements. One is concise and the other is detailed. One utilizes secondary data, while the other collects primary data. Both have explicit plans for how the data is handled through the life cycle of the project.</div></div><div class="bookmark-href"><img src="https://www.lib.umn.edu/sites/www.lib.umn.edu/themes/umnlib/favicons/android-chrome-512x512.png" class="icon bookmark-icon"/>https://www.lib.umn.edu/services/data/dmp-examples</div></div></a></figure></div><h2 id="4ce5aecc-8cab-4d3b-b8a8-4327e95f4f07" class=""><details open=""><summary>CDC (Centers for Disease Control and Prevention)</summary></details></h2><div class="indented"><figure id="1012c76f-82a5-4c11-bba3-669bb0275b0e"><div class="source"><a href="https://www.cdc.gov/globalhealth/healthprotection/fetp/training_modules/9/creating-analysis-plan_pw_final_09242013.pdf">https://www.cdc.gov/globalhealth/healthprotection/fetp/training_modules/9/creating-analysis-plan_pw_final_09242013.pdf</a></div></figure></div><p id="6276bff9-6639-4e0c-9e57-a9e954e92922" class="">
+</p><p id="90f2d49f-2c4e-419f-a059-fc1d236090ce" class="">Synoyms</p><p id="70e92fcb-e3f2-4297-ab2c-38744ce80f01" class="">Data Management and Analysis Plan</p><p id="dc65293c-44a8-4e39-b1a1-5704683a30ac" class="">
+</p></div></article></body></html>

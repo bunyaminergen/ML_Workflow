@@ -1,0 +1,869 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Adversarial Attacks</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="2cad7afd-70fa-4923-9c48-e8505b2764e5" class="page serif"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1646831519193-bcd0d45bf8ad?ixlib=rb-4.0.3&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://www.notion.so/icons/document_gray.svg"/></div><h1 class="page-title"><strong><strong>Adversarial Attacks</strong></strong></h1></header><div class="page-body"><h2 id="c5a0dffb-1a1e-46bf-a9dd-51d23e55639e" class=""><details open=""><summary><strong>What is Adversarial Attack </strong></summary></details></h2><div class="indented"><p id="42715cfb-ebf8-42a0-bc44-d2db1b37e825" class="">Adversarial attack refers to a technique used to deliberately mislead or confuse a machine learning model, by presenting it with carefully crafted input samples. These inputs, called adversarial examples, are specifically designed to cause the model to make incorrect predictions, even though they are similar to normal inputs in most respects. The goal of adversarial attacks is to evaluate the robustness and security of machine learning systems and highlight their limitations.</p></div><h2 id="40768c0b-0a1e-4555-9dd7-6a598b7354de" class=""><details open=""><summary><strong>History of Adversarial Attack </strong></summary></details></h2><div class="indented"><p id="77b30bd8-ea2d-487f-be04-3b3ce194fab9" class="">Adversarial attacks have a long history in the field of computer security and cryptography. Some of the earliest adversarial attacks were performed against encryption systems, where the adversary would try to manipulate the encrypted message to recover the plaintext or to cause the decryption system to fail.</p><p id="a224a339-2166-435a-85dd-d78ac25c4af0" class="">In the field of machine learning, adversarial attacks have been a research topic for several decades. The earliest studies on adversarial attacks in the context of machine learning focused on the development of algorithms for generating adversarial examples and for defending against adversarial attacks. </p><h3 id="3598f401-f307-49f3-ae39-b6b1208463b6" class=""><details open=""><summary>Chronological Order</summary></details></h3><div class="indented"><ul id="61d6c4c1-a45e-4f7a-a5a9-5fb26bf4fd0f" class="bulleted-list"><li style="list-style-type:disc"><em>In</em> <strong>2004</strong>,
+Nilesh Dalvi and others noted that linear classifiers used in spam filters could be defeated by simple &quot;evasion attacks&quot; as spammers inserted &quot;good words&quot; into their spam emails. <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">[paper]</a></li></ul><ul id="f20d9a90-9a5d-4122-a060-fd67b03c6814" class="bulleted-list"><li style="list-style-type:disc"><em>In </em><strong>2006</strong>, 
+Marco Barreno and others published &quot;Can Machine Learning Be Secure?&quot;, outlining a broad taxonomy of attacks. [<a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">paper</a>]</li></ul><ul id="a1f40fee-4561-4494-aff0-da303f5cce2f" class="bulleted-list"><li style="list-style-type:disc"><em>Around </em><strong>2007</strong>, 
+some spammers added random noise to fuzz words within &quot;image spam&quot; in order to defeat OCR-based filters. [<a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">paper</a>]</li></ul><ul id="f1d1d646-2aae-4fc3-bd47-a7ec4da55167" class="bulleted-list"><li style="list-style-type:disc"><em>As late as</em> <strong>2013</strong>,
+many researchers continued to hope that non-linear classifiers (such as support vector machines and neural networks ) might be robust to adversaries, until Battista Biggio and others demonstrated the first gradient-based attacks on such machine-learning models (2012 -2013) [<a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">paper</a>] - [<a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">paper</a>]</li></ul><ul id="b4b24279-c51f-4030-b6a0-f240b8cdae9a" class="bulleted-list"><li style="list-style-type:disc"><em>Starting in</em> <strong>2014</strong>, 
+Some of the earliest works in this area include the seminal paper by Szegedy et al. on &quot;Intriguing properties of neural networks&quot; in 2013, which demonstrated that neural networks are vulnerable to adversarial examples, using a gradient-based attack to craft adversarial perturbations. [ <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">paper</a> ]</li></ul><ul id="8ea977a2-d642-458f-89aa-fc45c8a9c1f3" class="bulleted-list"><li style="list-style-type:disc"><em>In </em><strong>2014</strong>, 
+the paper by Goodfellow et al. on &quot;Explaining and Harnessing Adversarial Examples&quot; , which introduced the fast gradient sign method (FGSM) for generating adversarial examples. [ <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">paper</a>]</li></ul><ul id="d8413f55-0fc6-424b-8642-24f6774f2851" class="bulleted-list"><li style="list-style-type:disc"><em>In </em><strong>2016</strong>,
+The paper &quot;Adversarial examples in the physical world&quot; by Kurakin, Goodfellow, and Bengio is a seminal work in the field of adversarial machine learning. It was published in 2016 and is one of the first works to explore the concept of adversarial examples in the physical world. 
+The paper investigates the vulnerability of machine learning models to adversarial examples in real-world physical environments. The authors show that machine learning models can be easily fooled by adversarial examples in the physical world, and they propose a number of techniques for creating such examples, such as adding small perturbations to input images or using fast gradient sign methods to generate adversarial examples. 
+The paper also explores the implications of adversarial examples in the physical world for various real-world applications, such as computer vision and biometric authentication, and highlights the need for more robust machine learning models that can better resist these attacks. 
+Overall, the paper is an important contribution to the field of adversarial machine learning and provides a valuable foundation for further research in this area. [ <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">paper </a>] </li></ul><ul id="72bc5d76-1a2f-4911-b9c0-978b4291d2d9" class="bulleted-list"><li style="list-style-type:disc"><em>In </em><strong>2018</strong>,
+Battista Biggio and Fabio Roli are well-known researchers in the field of machine learning security and privacy. The paper &quot;Wild Patterns: Ten Years after the Rise of Adversarial Machine Learning&quot; was published in December 2018 and reflects on the state of the art in the field of adversarial machine learning ten years after the discovery of adversarial examples.
+The paper provides an overview of the various attack and defense techniques that have been developed over the past decade and highlights some of the key challenges and open questions in the field. It also discusses the implications of adversarial machine learning for the security and privacy of machine learning models and systems. Overall, the paper provides a comprehensive overview of the current state of the field and the direction of future research. [ <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">paper </a>] </li></ul><ul id="5ddcacde-6c28-424d-9bd3-7990bd85d802" class="bulleted-list"><li style="list-style-type:disc"><em>In </em><strong>2019</strong>,
+The paper &quot;Algorithmic Decision-Making in AVs: Understanding Ethical and Technical Concerns for Smart Cities&quot; by Lim and Taeihagh addresses the topic of algorithmic decision-making in autonomous vehicles (AVs). In this paper, the authors discuss the potential impact of algorithmic decision-making on smart cities and the ethical and technical concerns associated with the use of AVs. 
+Adversarial attacks are one of the technical concerns mentioned in the paper. Adversarial attacks refer to the manipulation of inputs to a machine learning system in order to cause it to make incorrect decisions. The authors note that AVs, which rely on machine learning algorithms for decision-making, are vulnerable to adversarial attacks and that these attacks can have significant consequences for the safety and reliability of AVs. 
+Therefore, the paper highlights the importance of considering adversarial attacks as a potential threat when designing and deploying machine learning algorithms for AVs, and it discusses the need for methods to detect and defend against such attacks. Overall, the paper provides valuable insights into the ethical and technical challenges associated with algorithmic decision-making in AVs and the potential impact of adversarial attacks. [ <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">paper </a>]</li></ul><ul id="ab8bf152-31fd-4b70-9046-da535cf49109" class="bulleted-list"><li style="list-style-type:disc"><em>In </em><strong>2019</strong>, 
+Google Brain&#x27;s Nicholas Frosst point out that it is much easier to make self-driving cars miss stop signs by physically removing the sign itself, rather than creating adversarial examples. Frosst also believes that the adversarial machine learning community incorrectly assumes models trained on a certain data distribution will also perform well on a completely different data distribution. He suggests that a new approach to machine learning should be explored, and is currently working on a unique neural network that has characteristics more similar to human perception than state of the art approaches. [ <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">page </a>]</li></ul><ul id="533c4f44-d8e7-414f-9659-7418a518b58e" class="bulleted-list"><li style="list-style-type:disc"><em><strong>Present,</strong></em>
+While adversarial machine learning continues to be heavily rooted in academia, large tech companies such as Google, Microsoft, and IBM have begun curating documentation and open source code bases to allow others to concretely assess the robustness of machine learning models and minimize the risk of adversarial attacks. [ <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">page </a>] - [ <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">page</a> ] - [ <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">page </a>]
+In recent years, the research on adversarial attacks in the context of machine learning has become more active, driven by the increasing use of machine learning in security-sensitive applications, such as computer vision, speech recognition, and autonomous systems. The rise of deep learning has also fueled interest in adversarial attacks, as deep learning models have been shown to be more vulnerable to adversarial examples compared to traditional machine learning models.</li></ul></div></div><h2 id="02c3a8bb-58e1-400d-9fe9-6fca342485b3" class=""><details open=""><summary>Methods of Adversarial Attacks </summary></details></h2><div class="indented"><p id="53e10b3d-aeba-484f-8919-7fa8f366387a" class="">There are several methods to perform adversarial attacks, some of the most common ones include:</p><ol type="1" id="dd909815-1f47-4610-a445-c60b7cda767e" class="numbered-list" start="1"><li>Gradient-based methods: This involves computing the gradient of the model&#x27;s loss with respect to the input and then perturbing the input in the direction of the gradient that maximizes the loss.</li></ol><ol type="1" id="729ece6f-19e8-440a-8c59-199dca344485" class="numbered-list" start="2"><li>Evolutionary methods: This involves searching for adversarial examples using a population-based optimization algorithm, such as genetic algorithms or particle swarm optimization.</li></ol><ol type="1" id="ccd897df-57db-48db-9a5d-d0fef1ece0e6" class="numbered-list" start="3"><li>Decision-based methods: This involves generating adversarial examples by making small, targeted perturbations to the input that cause the model to change its prediction.</li></ol><ol type="1" id="f3df4467-e415-494b-8187-4539b92c52cd" class="numbered-list" start="4"><li>Black-box methods: This involves generating adversarial examples without access to the model&#x27;s internal workings, typically by using gradient estimates obtained through queries to the model.</li></ol><p id="7cec64bf-31be-41d9-aed7-f7b4b290135e" class="">It&#x27;s important to note that adversarial attacks can have serious consequences and can be used maliciously, so their use should be carefully considered and responsibly conducted within ethical guidelines.</p></div><h2 id="f87dd169-e51d-44f4-9c8f-6efc3609aa75" class=""><details open=""><summary>Most Common Adversarial Attacks</summary></details></h2><div class="indented"><p id="61dba4dd-30fe-4874-86bc-361eab68e0c7" class="">In adversarial machine learning, there are several threat models that are commonly used to evaluate the robustness of a machine learning model. Some of the most common threat models include:</p><ol type="1" id="15e52efb-0d83-4904-a218-57fefd9a0595" class="numbered-list" start="1"><li>Fast Gradient Sign Method (FGSM)</li></ol><ol type="1" id="f5a25f0c-ea9e-40ec-a4e4-677b38388323" class="numbered-list" start="2"><li>Projected Gradient Descent (PGD)</li></ol><ol type="1" id="416d6a06-0dbd-41cd-9663-0c5d33723b0f" class="numbered-list" start="3"><li>Carlini and Wagner (C&amp;W) attack</li></ol><ol type="1" id="d23f2af9-9519-4624-9fd5-bda601986413" class="numbered-list" start="4"><li>Adversarial patch attack</li></ol><ol type="1" id="c12b3143-e52f-478b-b484-edb64bb97dd2" class="numbered-list" start="5"><li>Targeted attacks: In a targeted attack, the adversary has a specific target class in mind and tries to manipulate the input data in such a way that the model predicts the target class, even though the input data is not representative of that class.</li></ol><ol type="1" id="a5aed97b-8620-452e-92f7-ccc1458b2fbd" class="numbered-list" start="6"><li>Non-targeted attacks: In a non-targeted attack, the adversary tries to manipulate the input data in such a way that the model predicts any class other than the true class.</li></ol><ol type="1" id="721dc645-b891-4741-b66a-dee8de81bcb8" class="numbered-list" start="7"><li>Poisoning attacks: Poisoning attacks involve the adversary adding carefully crafted malicious samples to the training data to manipulate the learned model parameters.</li></ol><ol type="1" id="1059b29e-0c16-4adf-b039-c7e3d39c9dac" class="numbered-list" start="8"><li>Evasion attacks: In an evasion attack, the adversary manipulates the input data at test time to cause the model to make an incorrect prediction.</li></ol><ol type="1" id="e49ac16e-745f-465b-b1ff-9dc086d6846f" class="numbered-list" start="9"><li>Data poisoning attacks: In data poisoning attacks, the adversary manipulates the training data to compromise the accuracy of the learned model.</li></ol><ol type="1" id="969ed77b-154c-42ac-8770-835cdd7de690" class="numbered-list" start="10"><li>Backdoor attacks: In a backdoor attack, the adversary adds a hidden trigger to the input data that causes the model to make an incorrect prediction when the trigger is present.</li></ol><ol type="1" id="c6bc1293-f1df-4bbf-8161-f745fc60be26" class="numbered-list" start="11"><li>Model inversion attacks: In a model inversion attack, the adversary uses the learned model to recover sensitive information, such as training data or model parameters, from the model predictions.</li></ol><ol type="1" id="ee38565c-2dc6-4d07-9cb3-0c5043ff41ab" class="numbered-list" start="12"><li>Byzantine attacks</li></ol><ol type="1" id="1ebfa44d-98e2-4bb2-ab35-f147d4ce88ba" class="numbered-list" start="13"><li>Model extraction</li></ol><p id="95da5a77-ee15-4747-8ef2-ad1c89e777ef" class="">These threat models are commonly used to evaluate the robustness of machine learning models and to identify potential weaknesses that can be exploited by adversaries.</p></div><h2 id="d2c1a8cb-9349-4283-a030-f38b96c5b4ef" class=""><details open=""><summary>How to perform an <strong>Adversarial Attack</strong>  </summary></details></h2><div class="indented"><p id="d10bb316-9616-42b8-8abc-84c1816203f6" class="">Adversarial attacks are performed by adding small, carefully crafted perturbations to input data, in order to cause a machine learning model to make incorrect predictions. Here are the general steps to perform an adversarial attack:</p><ol type="1" id="9ed79939-09e2-4c23-9d35-40604777d6bc" class="numbered-list" start="1"><li>Choose a model: Select the machine learning model you want to attack.</li></ol><ol type="1" id="7153981c-80c9-4501-ac91-ac71514e2247" class="numbered-list" start="2"><li>Select an input data: Choose a sample input data that you want to attack, for example, an image or a text.</li></ol><ol type="1" id="19fda396-5553-48f5-a024-13faf54b1d95" class="numbered-list" start="3"><li>Choose a loss function: Define a loss function that measures the difference between the true label and the predicted label of the input data.</li></ol><ol type="1" id="fb6a8acd-8c12-446c-b515-8b56066f50f7" class="numbered-list" start="4"><li>Generate the adversarial perturbation: Compute the gradient of the loss function with respect to the input data and use an optimization algorithm, such as gradient descent, to generate a perturbation that maximizes the loss.</li></ol><ol type="1" id="d1ed81ce-939a-4e93-a3fa-9739e473024b" class="numbered-list" start="5"><li>Evaluate the attack: Verify that the model makes incorrect predictions for the adversarial input data.</li></ol><p id="27d91d95-c4ae-4602-b656-a4de163a69fa" class="">Note that adversarial attacks are often used to evaluate the robustness and security of machine learning models, so it&#x27;s important to conduct them in an ethical and responsible manner.</p></div><h2 id="63e8db3c-8076-473a-8f78-84d8f75e32b7" class=""><details open=""><summary>Examples of <strong>Adversarial Attack</strong>  </summary></details></h2><div class="indented"><ul id="6ce25b11-1a47-49f9-9e6c-9d7c21fabf13" class="toggle"><li><details open=""><summary><strong>Adversarial Attacks on SMS Spam Detectors by Lowri Williams</strong></summary><figure id="8e89dee3-52cb-446a-abcf-9a4fc615809a"><a href="https://towardsdatascience.com/adversarial-attacks-on-sms-spam-detectors-12b16f1e748e" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">📱Adversarial Attacks on SMS Spam Detectors</div><div class="bookmark-description">The methodology behind the approach discussed in this post stems from a collaborative publication between myself and Irene Anthi . Spam SMS text messages often show up unexpectedly on our phone screens. That&#x27;s aggravating enough, but it gets worse. Whoever is sending you a spam text message is usually trying to defraud you.</div></div><div class="bookmark-href"><img src="https://miro.medium.com/fit/c/256/256/1*VzTUkfeGymHP4Bvav-T-lA.png" class="icon bookmark-icon"/>https://towardsdatascience.com/adversarial-attacks-on-sms-spam-detectors-12b16f1e748e</div></div><img src="https://miro.medium.com/max/1081/1*bM7ch9p3Uc86AtWUIP2rug.png" class="bookmark-image"/></a></figure><figure id="8b88d5af-9ef9-4376-aaba-1e3d822d8ce4"><a href="https://github.com/LowriWilliams/SMS_Adversarial_Machine_Learning/blob/master/Adversarial_Machine_Learning.ipynb" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">SMS_Adversarial_Machine_Learning/Adversarial_Machine_Learning.ipynb at master · LowriWilliams/SMS_Adversarial_Machine_Learning</div><div class="bookmark-description">You can&#x27;t perform that action at this time. You signed in with another tab or window. You signed out in another tab or window. Reload to refresh your session. Reload to refresh your session.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/LowriWilliams/SMS_Adversarial_Machine_Learning/blob/master/Adversarial_Machine_Learning.ipynb</div></div><img src="https://opengraph.githubassets.com/1a92fd5219540b666e22833f237df8e8ae10282e9aa630cf19e20b159742004f/LowriWilliams/SMS_Adversarial_Machine_Learning" class="bookmark-image"/></a></figure></details></li></ul><ul id="f9577885-efda-4be3-8ef2-a2ae55360814" class="toggle"><li><details open=""><summary><strong>Adversarial Email Generation against Spam Detection Models through Feature Perturbation by Qi Cheng, Anyi Xu, Xiangyang Li, Leah Ding</strong></summary><p id="6af25079-686b-4d70-bcba-c4b49426097a" class="">[ <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">paper</a> ]</p></details></li></ul><ul id="1b314cbd-ea5b-4b86-a414-50eda683bf81" class="toggle"><li><details open=""><summary><strong>NLP Deep Dive: 5 types of adversarial attacks on large language models by Rachael Tatman</strong></summary><figure id="8962f21a-fe92-4fe9-8fdd-5551cc389866"><div class="source"><a href="https://www.youtube.com/watch?v=cwGXeUyvaUU">https://www.youtube.com/watch?v=cwGXeUyvaUU</a></div></figure></details></li></ul><ul id="ec594a82-dcce-4f1e-9275-fb7aa06c2f71" class="toggle"><li><details open=""><summary><strong>TextAttack: A Framework for Data Augmentation and Adversarial Training in NLP by Elvis Saravia</strong></summary><figure id="68182445-94b0-4e64-b495-6dfb244c7282"><div class="source"><a href="https://www.youtube.com/watch?v=VpLAjOQHaLU">https://www.youtube.com/watch?v=VpLAjOQHaLU</a></div></figure></details></li></ul><ul id="55f20dcc-70e0-43c7-ad61-0b352c45c71f" class="toggle"><li><details open=""><summary><strong>Adversarial Attacks on Deep Leaning Models in NLP by Sakshi Shukla </strong></summary><figure id="735f021d-73b7-4925-a193-09fbedad2097"><div class="source"><a href="https://www.youtube.com/watch?v=JACkw_5zG2Y">https://www.youtube.com/watch?v=JACkw_5zG2Y</a></div></figure></details></li></ul><ul id="a2a122ee-29cc-4ef6-99b6-d36072180d52" class="toggle"><li><details open=""><summary><strong>Generating adversarial patches against YOLOv2 by Simen Thys, Wiebe Van Ranst, and Toon Goedemé</strong></summary><p id="53ccb2c9-4c71-4ded-aa4b-edb3fcba50b2" class="">[ <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">page </a>] - [ <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">paper </a>]</p><figure id="ca2043e5-252e-4090-81e9-adb80776ad67"><div class="source"><a href="https://www.youtube.com/watch?v=MIbFvK2S9g8">https://www.youtube.com/watch?v=MIbFvK2S9g8</a></div></figure><p id="86a9c7f2-5853-4803-a847-8790b7c03ac3" class="">
+</p></details></li></ul><ul id="7be57aca-7733-4775-b6de-a7be86dc13f5" class="toggle"><li><details open=""><summary><strong> Model Hacking in the Real World (Tesla&#x27;s former Mobileye system) by McAfee</strong></summary><p id="dbc35b44-a3be-4d66-9c8f-2a68b79bb3b5" class="">McAfee attacked Tesla&#x27;s former Mobileye system, fooling it into driving 50 mph over the speed limit, simply by adding a two-inch strip of black tape to a speed limit sign. [ <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">page </a>]</p><figure id="8233bacf-2462-42aa-9d4d-465ec1d247d8"><div class="source"><a href="https://www.youtube.com/watch?v=4uGV_fRj0UA">https://www.youtube.com/watch?v=4uGV_fRj0UA</a></div></figure></details></li></ul><ul id="9ac4295e-b1c6-4779-9f8c-ce6b6a34a70d" class="toggle"><li><details open=""><summary><strong>Why deep-learning AIs are so easy to fool by Douglas Heaven</strong></summary><p id="2180a1d4-cd7e-4e97-be2b-5779f07edcf5" class="">[ <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">page </a>] - [ <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">paper </a>]</p></details></li></ul><ul id="46d9fdb6-ef04-4a30-bbf4-2f932fda559e" class="toggle"><li><details open=""><summary><strong>Robust Physical-World Attacks on Deep Learning Visual Classification by Kevin Eykholt and friends</strong></summary><p id="f4c2a63f-8f5a-4ab4-a2d1-60779d92fcdc" class="">[ <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">paper</a> ] </p></details></li></ul><ul id="a008020e-f870-47ce-810b-f18215afd251" class="toggle"><li><details open=""><summary><strong>Slight Street Sign Modifications Can Completely Fool Machine Learning Algorithms by Evan Ackerman</strong></summary><p id="68d3fe95-6c7f-4f09-a288-dfcebc262bf6" class="">[ <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">page</a> ]</p></details></li></ul><ul id="43e808af-6577-4831-85be-29dfbb415912" class="toggle"><li><details open=""><summary><strong>Adversarial Patch by Tom B. Brown and friends</strong></summary><p id="b0e6e637-1e2b-4d71-80bb-21236e492661" class="">[ <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">paper</a> ] </p><figure id="2af4e544-2b41-4530-8ca2-2a7415dc42fb"><div class="source"><a href="https://www.youtube.com/watch?v=i1sp4X57TL4">https://www.youtube.com/watch?v=i1sp4X57TL4</a></div></figure></details></li></ul></div><h2 id="d0c03f67-eff2-4ee4-bf25-e085212d73c8" class=""><details open=""><summary>Codes</summary></details></h2><div class="indented"><h3 id="e7b6a3e7-ef35-49b0-b4ad-68dfe4468288" class=""><details open=""><summary>Adversarial Robustness Toolbox (ART) Library Example</summary></details></h3><div class="indented"><p id="b64dd607-e63c-4b7f-8446-b21c422bfa98" class="">Adversarial Robustness Toolbox (ART) is a Python library for Machine Learning Security. ART is hosted by the Linux Foundation AI &amp; Data Foundation (LF AI &amp; Data). ART provides tools that enable developers and researchers to defend and evaluate Machine Learning models and applications against the adversarial threats of Evasion, Poisoning, Extraction, and Inference. ART supports all popular machine learning frameworks (TensorFlow, Keras, PyTorch, MXNet, scikit-learn, XGBoost, LightGBM, CatBoost, GPy, etc.), all data types (images, tables, audio, video, etc.) and machine learning tasks (classification, object detection, speech recognition, generation, certification, etc.).</p><figure id="e5e5db09-100d-4fdc-bcf2-3d0b9c192872"><a href="https://github.com/Trusted-AI/adversarial-robustness-toolbox/blob/main/examples/get_started_scikit_learn.py" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">adversarial-robustness-toolbox/get_started_scikit_learn.py at main · Trusted-AI/adversarial-robustness-toolbox</div><div class="bookmark-description">You can&#x27;t perform that action at this time. You signed in with another tab or window. You signed out in another tab or window. Reload to refresh your session. Reload to refresh your session.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/Trusted-AI/adversarial-robustness-toolbox/blob/main/examples/get_started_scikit_learn.py</div></div><img src="https://opengraph.githubassets.com/55b2f37dae130a9ddbc7817f483e1f0fba94982a0c46a7ccd079434daf1b1698/Trusted-AI/adversarial-robustness-toolbox" class="bookmark-image"/></a></figure><figure id="8da0dd6f-a669-4a79-93b5-84fa6b8db776"><a href="https://github.com/Trusted-AI" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Trusted-AI</div><div class="bookmark-description">This GitHub org hosts LF AI Foundation projects in the category of Trusted and Responsible AI. Adversarial Robustness Toolbox (ART) - Python Library for Machine Learning Security - Evasion, Poisoning, Extraction, Inference - Red and Blue Teams Python 3.4k 937 A comprehensive set of fairness metrics for datasets and machine learning models, explanations for these metrics, and algorithms to mitigate bias in datasets and models.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/Trusted-AI</div></div><img src="https://avatars.githubusercontent.com/u/56103733?s=280&amp;v=4" class="bookmark-image"/></a></figure><pre id="63e8c718-d500-49df-8d92-861d3f62e0a6" class="code"><code>&quot;&quot;&quot;
+The script demonstrates a simple example of using ART with scikit-learn. The example train a small model on the MNIST
+dataset and creates adversarial examples using the Fast Gradient Sign Method. Here we use the ART classifier to train
+the model, it would also be possible to provide a pretrained model to the ART classifier.
+The parameters are chosen for reduced computational requirements of the script and not optimised for accuracy.
+&quot;&quot;&quot;
+from sklearn.svm import SVC
+import numpy as np
+
+from art.attacks.evasion import FastGradientMethod
+from art.estimators.classification import SklearnClassifier
+from art.utils import load_mnist
+
+# Step 1: Load the MNIST dataset
+
+(x_train, y_train), (x_test, y_test), min_pixel_value, max_pixel_value = load_mnist()
+
+# Step 1a: Flatten dataset
+
+nb_samples_train = x_train.shape[0]
+nb_samples_test = x_test.shape[0]
+x_train = x_train.reshape((nb_samples_train, 28 * 28))
+x_test = x_test.reshape((nb_samples_test, 28 * 28))
+
+# Step 2: Create the model
+
+model = SVC(C=1.0, kernel=&quot;rbf&quot;)
+
+# Step 3: Create the ART classifier
+
+classifier = SklearnClassifier(model=model, clip_values=(min_pixel_value, max_pixel_value))
+
+# Step 4: Train the ART classifier
+
+classifier.fit(x_train, y_train)
+
+# Step 5: Evaluate the ART classifier on benign test examples
+
+predictions = classifier.predict(x_test)
+accuracy = np.sum(np.argmax(predictions, axis=1) == np.argmax(y_test, axis=1)) / len(y_test)
+print(&quot;Accuracy on benign test examples: {}%&quot;.format(accuracy * 100))
+
+# Step 6: Generate adversarial test examples
+attack = FastGradientMethod(estimator=classifier, eps=0.2)
+x_test_adv = attack.generate(x=x_test)
+
+# Step 7: Evaluate the ART classifier on adversarial test examples
+
+predictions = classifier.predict(x_test_adv)
+accuracy = np.sum(np.argmax(predictions, axis=1) == np.argmax(y_test, axis=1)) / len(y_test)
+print(&quot;Accuracy on adversarial test examples: {}%&quot;.format(accuracy * 100))
+
+# run time with google colab: 37m 57s
+
+&quot;&quot;&quot;
+clean accuracy:  93.8 %
+robust accuracy for perturbations with
+  Linf norm ≤ 0.0   : 93.8 %
+  Linf norm ≤ 0.0002: 87.5 %
+  Linf norm ≤ 0.0005: 81.2 %
+  Linf norm ≤ 0.0008: 50.0 %
+  Linf norm ≤ 0.001 : 37.5 %
+  Linf norm ≤ 0.0015: 18.8 %
+  Linf norm ≤ 0.002 :  6.2 %
+  Linf norm ≤ 0.003 :  0.0 %
+  Linf norm ≤ 0.01  :  0.0 %
+  Linf norm ≤ 0.1   :  0.0 %
+  Linf norm ≤ 0.3   :  0.0 %
+  Linf norm ≤ 0.5   :  0.0 %
+  Linf norm ≤ 1.0   :  0.0 %
+
+we can also manually check this:
+
+robust accuracy for perturbations with
+  Linf norm ≤ 0.0   : 93.8 %
+    perturbation sizes:
+     [0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+  Linf norm ≤ 0.0002: 87.5 %
+    perturbation sizes:
+     [0.0002 0.0002 0.0002 0.0002 0.0002 0.0002 0.0002 0.0002 0.0002 0.0002
+     0.0002 0.0002 0.0002 0.0002 0.0002 0.0002]
+  Linf norm ≤ 0.0005: 81.2 %
+    perturbation sizes:
+     [0.00050002 0.00050002 0.00050002 0.00050002 0.00050002 0.00050002
+     0.00050002 0.00050002 0.00050002 0.00050002 0.00050002 0.00050002
+     0.00050002 0.00050002 0.00050002 0.00050002]
+  Linf norm ≤ 0.0008: 50.0 %
+    perturbation sizes:
+     [0.00080001 0.00080001 0.00080001 0.00080001 0.00080001 0.00080001
+     0.00080001 0.00080001 0.00080001 0.00080001 0.00080001 0.00080001
+     0.00080001 0.00080001 0.00080001 0.00080001]
+  Linf norm ≤ 0.001 : 37.5 %
+    perturbation sizes:
+     [0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001
+     0.001 0.001 0.001 0.001]
+  Linf norm ≤ 0.0015: 18.8 %
+    perturbation sizes:
+     [0.00150001 0.00150001 0.00150001 0.00150001 0.00150001 0.00150001
+     0.00150001 0.00150001 0.00150001 0.00150001 0.00150001 0.00150001
+     0.00150001 0.00150001 0.00150001 0.00150001]
+  Linf norm ≤ 0.002 :  6.2 %
+    perturbation sizes:
+     [0.002 0.002 0.002 0.002 0.002 0.002 0.002 0.002 0.002 0.002 0.002 0.002
+     0.002 0.002 0.002 0.002]
+  Linf norm ≤ 0.003 :  0.0 %
+    perturbation sizes:
+     [0.00300002 0.00300002 0.00300002 0.00300002 0.00300002 0.00300002
+     0.00300002 0.00300002 0.00300002 0.00300002 0.00300002 0.00300002
+     0.00300002 0.00300002 0.00300002 0.00300002]
+&quot;&quot;&quot;</code></pre></div><h3 id="2a23bd79-55c1-409c-b4e6-6685becb1fc8" class=""><details open=""><summary>Foolbox Library Example</summary></details></h3><div class="indented"><p id="d0b65010-6ed2-42c9-8e96-b65e0332c9b2" class="">Foolbox is a Python toolbox to create adversarial examples that fool neural networks. It comes with support for many frameworks to build models including TensorFlow PyTorch Keras JAX MXNet Theano Lasagne and it is easy to extend to other frameworks.</p><figure id="2ed246d4-57b2-49e2-83b4-169a9be6464d"><a href="https://github.com/bethgelab/foolbox/blob/master/examples/single_attack_pytorch_resnet18.py" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">foolbox/single_attack_pytorch_resnet18.py at master · bethgelab/foolbox</div><div class="bookmark-description">You can&#x27;t perform that action at this time. You signed in with another tab or window. You signed out in another tab or window. Reload to refresh your session. Reload to refresh your session.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/bethgelab/foolbox/blob/master/examples/single_attack_pytorch_resnet18.py</div></div><img src="https://opengraph.githubassets.com/2c7834b43b922c8413de36b7f91807f647eff32e6903cf293cf18e21b80e895d/bethgelab/foolbox" class="bookmark-image"/></a></figure><pre id="1aa9b2d0-4611-4350-b9f1-6ebc55b54550" class="code"><code>#!/usr/bin/env python3
+&quot;&quot;&quot;
+A simple example that demonstrates how to run a single attack against
+a PyTorch ResNet-18 model for different epsilons and how to then report
+the robust accuracy.
+&quot;&quot;&quot;
+import torchvision.models as models
+import eagerpy as ep
+from foolbox import PyTorchModel, accuracy, samples
+from foolbox.attacks import LinfPGD
+
+
+def main() -&gt; None:
+    # instantiate a model (could also be a TensorFlow or JAX model)
+    model = models.resnet18(pretrained=True).eval()
+    preprocessing = dict(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225], axis=-3)
+    fmodel = PyTorchModel(model, bounds=(0, 1), preprocessing=preprocessing)
+
+    # get data and test the model
+    # wrapping the tensors with ep.astensors is optional, but it allows
+    # us to work with EagerPy tensors in the following
+    images, labels = ep.astensors(*samples(fmodel, dataset=&quot;imagenet&quot;, batchsize=16))
+    clean_acc = accuracy(fmodel, images, labels)
+    print(f&quot;clean accuracy:  {clean_acc * 100:.1f} %&quot;)
+
+    # apply the attack
+    attack = LinfPGD()
+    epsilons = [
+        0.0,
+        0.0002,
+        0.0005,
+        0.0008,
+        0.001,
+        0.0015,
+        0.002,
+        0.003,
+        0.01,
+        0.1,
+        0.3,
+        0.5,
+        1.0,
+    ]
+    raw_advs, clipped_advs, success = attack(fmodel, images, labels, epsilons=epsilons)
+
+    # calculate and report the robust accuracy (the accuracy of the model when
+    # it is attacked)
+    robust_accuracy = 1 - success.float32().mean(axis=-1)
+    print(&quot;robust accuracy for perturbations with&quot;)
+    for eps, acc in zip(epsilons, robust_accuracy):
+        print(f&quot;  Linf norm ≤ {eps:&lt;6}: {acc.item() * 100:4.1f} %&quot;)
+
+    # we can also manually check this
+    # we will use the clipped advs instead of the raw advs, otherwise
+    # we would need to check if the perturbation sizes are actually
+    # within the specified epsilon bound
+    print()
+    print(&quot;we can also manually check this:&quot;)
+    print()
+    print(&quot;robust accuracy for perturbations with&quot;)
+    for eps, advs_ in zip(epsilons, clipped_advs):
+        acc2 = accuracy(fmodel, advs_, labels)
+        print(f&quot;  Linf norm ≤ {eps:&lt;6}: {acc2 * 100:4.1f} %&quot;)
+        print(&quot;    perturbation sizes:&quot;)
+        perturbation_sizes = (advs_ - images).norms.linf(axis=(1, 2, 3)).numpy()
+        print(&quot;    &quot;, str(perturbation_sizes).replace(&quot;\n&quot;, &quot;\n&quot; + &quot;    &quot;))
+        if acc2 == 0:
+            break
+
+
+if __name__ == &quot;__main__&quot;:
+    main()</code></pre></div><h3 id="c9837aad-344f-468d-ba4f-e55acd87a534" class=""><details open=""><summary>Cleverhans Library Example</summary></details></h3><div class="indented"><p id="90869cdc-a330-419a-9ef3-0f9c85124f45" class="">You can find codes in this notebook of the cleverhans library creating an adversarial patch. [ <a href="Adversarial%20Attacks%202cad7afd70fa49239c48e8505b2764e5.html">page </a>]</p><figure id="b0567d35-08c8-48ef-8815-8d9bdfac4813"><a href="https://github.com/cleverhans-lab/cleverhans/blob/master/cleverhans_v3.1.0/examples/adversarial_patch/AdversarialPatch.ipynb" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">cleverhans/AdversarialPatch.ipynb at master · cleverhans-lab/cleverhans</div><div class="bookmark-description">An adversarial example library for constructing attacks, building defenses, and benchmarking both - cleverhans/AdversarialPatch.ipynb at master · cleverhans-lab/cleverhans</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/cleverhans-lab/cleverhans/blob/master/cleverhans_v3.1.0/examples/adversarial_patch/AdversarialPatch.ipynb</div></div><img src="https://opengraph.githubassets.com/4e2f3a35826a388aeb9ef7b84242f8119595c0cb9a917979c671483d1b134dd0/cleverhans-lab/cleverhans" class="bookmark-image"/></a></figure></div><h3 id="7b874f0a-1524-4103-8428-1075051ea822" class=""><details open=""><summary>From me</summary></details></h3><div class="indented"><p id="7836a4b4-2894-4444-bcfc-56a82f8918b9" class="">If I have a study that includes Adversarial Attack or Adversarial Patch, I will share it both here and on Github.</p></div></div><h2 id="a4fe7f3f-4dda-47b8-861f-9d34d448b244" class=""><details open=""><summary>Papers</summary></details></h2><div class="indented"><ul id="ef0d0b56-2248-42cc-ac85-791f51c022ee" class="toggle"><li><details open=""><summary>Adversarial Classification</summary><figure id="539f9410-3b97-4f72-8bc7-a84620e30e3d"><div class="source"><a href="https://homes.cs.washington.edu/~pedrod/papers/kdd04.pdf">https://homes.cs.washington.edu/~pedrod/papers/kdd04.pdf</a></div></figure></details></li></ul><ul id="c73f4cdb-6353-4259-aeea-96be91c09650" class="toggle"><li><details open=""><summary>Can Machine Learning Be Secure </summary><figure id="d7e16cc7-645b-4b52-8ffd-6086984bca81"><div class="source"><a href="https://people.eecs.berkeley.edu/~adj/publications/paper-files/asiaccs06.pdf">https://people.eecs.berkeley.edu/~adj/publications/paper-files/asiaccs06.pdf</a></div></figure></details></li></ul><ul id="82ceebe7-bada-49e2-bacc-4418e6f6d809" class="toggle"><li><details open=""><summary>Filtering Image Spam with Near-Duplicate Detection</summary><figure id="fdfb1231-190c-494c-a84c-61ee0e5b9c89"><div class="source"><a href="https://www.cs.princeton.edu/cass/papers/spam_ceas07.pdf">https://www.cs.princeton.edu/cass/papers/spam_ceas07.pdf</a></div></figure></details></li></ul><ul id="fbb868e2-a42e-4075-bf46-82a88b439209" class="toggle"><li><details open=""><summary>Poisoning Attacks against Support Vector Machines</summary><figure id="4fefc795-8945-4171-81ae-d83ba0ff24b5"><div class="source"><a href="https://arxiv.org/pdf/1206.6389v3.pdf">https://arxiv.org/pdf/1206.6389v3.pdf</a></div></figure></details></li></ul><ul id="0c869bcd-68a6-4907-bab8-0b15dcb1ec22" class="toggle"><li><details open=""><summary>Evasion attacks against machine learning at test time</summary><figure id="827da8a0-a607-4d7c-846c-0417f62ac458"><div class="source"><a href="https://arxiv.org/pdf/1708.06131.pdf">https://arxiv.org/pdf/1708.06131.pdf</a></div></figure></details></li></ul><ul id="5c75115b-b1f4-4670-ad56-a93141772031" class="toggle"><li><details open=""><summary>Intriguing properties of neural networks</summary><figure id="12934270-dd97-40c1-8921-d7614aa3df8e"><div class="source"><a href="https://arxiv.org/pdf/1312.6199.pdf">https://arxiv.org/pdf/1312.6199.pdf</a></div></figure></details></li></ul><ul id="263fdc1f-3a59-4bce-9dcb-8d770c7c3adb" class="toggle"><li><details open=""><summary>Explaining and Harnessing Adversarial Examples</summary><figure id="60e5a45c-1229-4d71-b4ad-a3d787010ee0"><div class="source"><a href="https://arxiv.org/pdf/1412.6572.pdf">https://arxiv.org/pdf/1412.6572.pdf</a></div></figure></details></li></ul><ul id="4039a450-6cf1-4e70-8663-f97bfc9495d1" class="toggle"><li><details open=""><summary>Adversarial examples in the physical world</summary><figure id="b5c8ea64-d358-4257-a6b6-5e7bd5305562"><div class="source"><a href="https://arxiv.org/pdf/1607.02533.pdf">https://arxiv.org/pdf/1607.02533.pdf</a></div></figure></details></li></ul><ul id="7b724ba2-4208-4d71-bb16-f898c12dc30a" class="toggle"><li><details open=""><summary>Wild Patterns: Ten Years After the Rise of Adversarial Machine Learning</summary><figure id="60d15085-419e-4b56-9079-64933acfab20"><div class="source"><a href="https://arxiv.org/pdf/1712.03141.pdf">https://arxiv.org/pdf/1712.03141.pdf</a></div></figure></details></li></ul><ul id="ab648e47-5382-48d4-9c13-d0702625dd53" class="toggle"><li><details open=""><summary>Algorithmic Decision-Making in AVs: Understanding Ethical and Technical Concerns for Smart Cities</summary><figure id="7d05878c-d08f-41dc-beec-2ce26e49d064"><div class="source"><a href="https://arxiv.org/ftp/arxiv/papers/1910/1910.13122.pdf">https://arxiv.org/ftp/arxiv/papers/1910/1910.13122.pdf</a></div></figure></details></li></ul><ul id="edd1df3e-0816-4d3a-80f0-e59003b1536d" class="toggle"><li><details open=""><summary>Adversarial Email Generation against Spam Detection Models through Feature Perturbation </summary><figure id="75929178-0a75-4af6-8ed5-0a0b78847fe3"><div class="source"><a href="https://isi.jhu.edu/wp-content/uploads/2022/04/Adversarial_Attacks_Against_Machine_Learning_Based_SpamFilters__IEEE.pdf">https://isi.jhu.edu/wp-content/uploads/2022/04/Adversarial_Attacks_Against_Machine_Learning_Based_SpamFilters__IEEE.pdf</a></div></figure></details></li></ul><ul id="cf062d35-ee59-49f8-8627-3ba2e6bf771c" class="toggle"><li><details open=""><summary>Fooling automated surveillance cameras: adversarial patches to attack person detection</summary><figure id="36dbe091-e677-4be5-8c6c-c0f7634ad272"><div class="source"><a href="https://arxiv.org/pdf/1904.08653.pdf">https://arxiv.org/pdf/1904.08653.pdf</a></div></figure></details></li></ul><ul id="bd846286-2854-4a9d-aa91-1c7616e7267f" class="toggle"><li><details open=""><summary>Why deep-learning AIs are so easy to fool </summary><figure id="f703bd13-a5bf-42a5-96f5-42cb5de3e7bd"><div class="source"><a href="https://www.nature.com/articles/d41586-019-03013-5.pdf">https://www.nature.com/articles/d41586-019-03013-5.pdf</a></div></figure></details></li></ul><ul id="505621ad-6671-4cff-9781-799e1d2892f6" class="toggle"><li><details open=""><summary>Robust Physical-World Attacks on Deep Learning Visual Classification</summary><figure id="45c46b40-9541-4c41-9740-613ccf4f070c"><div class="source"><a href="https://arxiv.org/pdf/1707.08945.pdf">https://arxiv.org/pdf/1707.08945.pdf</a></div></figure></details></li></ul><ul id="47c02d7f-5530-47c5-88ba-f09dcd31f47a" class="toggle"><li><details open=""><summary>Adversarial Patch</summary><figure id="4edf4dfa-955a-47d0-9a63-d1c26e0ed620"><div class="source"><a href="https://arxiv.org/pdf/1712.09665.pdf">https://arxiv.org/pdf/1712.09665.pdf</a></div></figure></details></li></ul></div><h2 id="51f4f9c7-3f50-4b52-afdd-d0a3345e21e9" class=""><details open=""><summary>Pages</summary></details></h2><div class="indented"><figure id="5103715e-f789-4d46-a145-2638db9475d7"><a href="https://en.wikipedia.org/wiki/Adversarial_machine_learning#cite_note-9" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Adversarial machine learning - Wikipedia</div><div class="bookmark-description">Adversarial machine learning is the study of the attacks on machine learning algorithms, and of the defenses against such attacks. A recent survey exposes the fact that practitioners report a dire need for better protecting machine learning systems in industrial applications.</div></div><div class="bookmark-href"><img src="https://en.wikipedia.org/static/favicon/wikipedia.ico" class="icon bookmark-icon"/>https://en.wikipedia.org/wiki/Adversarial_machine_learning#cite_note-9</div></div><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Kernel_Machine.svg/1200px-Kernel_Machine.svg.png" class="bookmark-image"/></a></figure><figure id="628f6543-2600-4718-b438-f71692e14f4a"><a href="https://syncedreview.com/2019/11/21/google-brains-nicholas-frosst-on-adversarial-examples-and-emotional-responses/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Google Brain&#x27;s Nicholas Frosst on Adversarial Examples and Emotional Responses | Synced</div><div class="bookmark-description">Although convolutional neural networks have reached Superman level on image classification tasks, adversarial examples remain the kryptonite that can mysteriously defeat even SOTA models. &quot;An adversarial example is an image that you have intentionally crafted to screw up a network after training it.&quot;</div></div><div class="bookmark-href"><img src="https://i0.wp.com/syncedreview.com/wp-content/uploads/2017/08/cropped-screen-shot-2017-08-01-at-2-02-47-pm.png?fit=192%2C192&amp;ssl=1" class="icon bookmark-icon"/>https://syncedreview.com/2019/11/21/google-brains-nicholas-frosst-on-adversarial-examples-and-emotional-responses/</div></div><img src="https://i0.wp.com/syncedreview.com/wp-content/uploads/2019/11/image-152.png?fit=950%2C521&amp;ssl=1" class="bookmark-image"/></a></figure><figure id="6bb78aea-7d23-4add-b38d-15b86eb5ddf3"><a href="https://ai.google/responsibilities/responsible-ai-practices/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Responsible AI practices - Google AI</div><div class="bookmark-description">These questions are far from solved, and in fact are active areas of research and development. Google is committed to making progress in the responsible development of AI and to sharing knowledge, research, tools, datasets, and other resources with the larger community. Below we share some of our current work and recommended practices.</div></div><div class="bookmark-href"><img src="https://ai.google/static/images/favicon.ico" class="icon bookmark-icon"/>https://ai.google/responsibilities/responsible-ai-practices/</div></div><img src="https://ai.google/static/images/share.png" class="bookmark-image"/></a></figure><figure id="a30bd8b1-321d-421c-bf30-5c251920d76d"><div class="source">https://github.com/Trusted-AI/adversarial-robustness-toolbox</div></figure><figure id="d1fb7375-1e82-4465-95f1-10869ff7d7c6"><a href="https://learn.microsoft.com/en-us/security/engineering/failure-modes-in-machine-learning" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Failure Modes in Machine Learning - Security documentation</div><div class="bookmark-description">November 2019 In the last two years, more than 200 papers have been written on how Machine Learning (ML) can fail because of adversarial attacks on the algorithms and data; this number balloons if we were to incorporate non-adversarial failure modes.</div></div><div class="bookmark-href"><img src="https://learn.microsoft.com/favicon.ico" class="icon bookmark-icon"/>https://learn.microsoft.com/en-us/security/engineering/failure-modes-in-machine-learning</div></div><img src="https://learn.microsoft.com/en-us/media/logos/logo-ms-social.png" class="bookmark-image"/></a></figure><figure id="0b50fcf8-910b-4bab-992d-6adb46715850"><a href="https://cvcops19.cispa.saarland/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">CV-COPS 2019</div><div class="bookmark-description">Computer vision is finally working in the real world, but what are the consequences on privacy and security? For example, recent work shows that vision algorithms can spy on smartphone keypresses from meters away, steal information from inside homes via hacked cameras, exploit social media to de-anonymize blurred faces, and reconstruct images from features like SIFT.</div></div><div class="bookmark-href">https://cvcops19.cispa.saarland/</div></div><img src="https://cvcops19.cispa.saarland/img/headshots/apukapadia.jpg" class="bookmark-image"/></a></figure><figure id="c7d2f458-4f18-40d2-9017-b0a055dd7877"><a href="https://www.wired.com/story/tesla-speed-up-adversarial-example-mgm-breach-ransomware/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">A Tiny Piece of Tape Tricked Teslas Into Speeding Up 50 MPH</div><div class="bookmark-description">This week was filled with wide-scale calamity. Hundreds of millions of PCs have components whose firmware is vulnerable to hacking-which is to say, pretty much all of them. It&#x27;s a problem that&#x27;s been known about for years, but doesn&#x27;t seem to get any better.</div></div><div class="bookmark-href"><img src="https://www.wired.com/verso/static/wired/assets/favicon.ico" class="icon bookmark-icon"/>https://www.wired.com/story/tesla-speed-up-adversarial-example-mgm-breach-ransomware/</div></div><img src="https://media.wired.com/photos/5e50481ca4dea100087f96e7/191:100/w_1280,c_limit/Security_teslax_628733180.jpg" class="bookmark-image"/></a></figure><figure id="0ef38c4a-66ef-4a70-9ee9-3c3478a4f052"><a href="https://www.nature.com/articles/d41586-019-03013-5" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Why deep-learning AIs are so easy to fool</div><div class="bookmark-description">A self-driving car approaches a stop sign, but instead of slowing down, it accelerates into the busy intersection. An accident report later reveals that four small rectangles had been stuck to the face of the sign. These fooled the car&#x27;s onboard artificial intelligence (AI) into misreading the word &#x27;stop&#x27; as &#x27;speed limit 45&#x27;.</div></div><div class="bookmark-href"><img src="https://www.nature.com/static/images/favicons/nature/favicon.ico" class="icon bookmark-icon"/>https://www.nature.com/articles/d41586-019-03013-5</div></div><img src="https://media.nature.com/lw1024/magazine-assets/d41586-019-03013-5/d41586-019-03013-5_17249374.jpg" class="bookmark-image"/></a></figure><figure id="e453f55d-ca52-4979-b520-4ec77101fe0e"><a href="https://spectrum.ieee.org/slight-street-sign-modifications-can-fool-machine-learning-algorithms" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Slight Street Sign Modifications Can Completely Fool Machine Learning Algorithms</div><div class="bookmark-description">It&#x27;s very difficult, if not impossible, for us humans to understand how robots see the world. Their cameras work like our eyes do, but the space between the image that a camera captures and actionable information about that image is filled with a black box of machine learning algorithms that are trying to translate patterns of features into something that they&#x27;re familiar with.</div></div><div class="bookmark-href"><img src="https://assets.rebelmouse.io/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWFnZSI6Imh0dHBzOi8vYXNzZXRzLnJibC5tcy8yNjU5NjY0OS9vcmlnaW4ucG5nIiwiZXhwaXJlc19hdCI6MTcyMjY3NDUwNn0.E9lMSNv23A_GyW60aP_Rh5AzMMAKAHMpGrotgTDO5_Q/img.png?width=32&amp;height=32" class="icon bookmark-icon"/>https://spectrum.ieee.org/slight-street-sign-modifications-can-fool-machine-learning-algorithms</div></div><img src="https://spectrum.ieee.org/media-library/minor-changes-to-street-sign-graphics-can-fool-machine-learning-algorithms-into-thinking-the-signs-say-something-completely-diff.jpg?id=25583705&amp;width=1200&amp;height=600&amp;coordinates=0%2C77%2C0%2C78" class="bookmark-image"/></a></figure><figure id="d5353416-2960-4239-8337-24487a2e8225"><a href="http://www.cleverhans.io/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Welcome to the cleverhans blog</div><div class="bookmark-description">If you came here looking for the open-source cleverhans library for benchmarking the vulnerability of machine learning models to adversarial examples, here is its GitHub repository. If you were looking for the technical report associated with the cleverhans library, it is available here and the BibTex entry for it is: Here is a list of all entries in our blog.</div></div><div class="bookmark-href">http://www.cleverhans.io/</div></div></a></figure></div><h2 id="281fa32a-f84d-43d8-a42f-0cbb4a9eae1e" class=""><details open=""><summary><em>Bonuses</em></summary></details></h2><div class="indented"><h3 id="ea6121fc-72e4-4e81-a7f2-bfbcdc627121" class=""><details open=""><summary> <em>Bonus</em>: Andrew Ng Adversarial Attacks</summary></details></h3><div class="indented"><figure id="0d1388e9-dffc-4bf7-8355-2ebe855bc863"><div class="source"><a href="https://www.youtube.com/watch?v=Exd6CLAYOh0">https://www.youtube.com/watch?v=Exd6CLAYOh0</a></div></figure></div><h3 id="5624e6da-0545-4dd2-9fef-43cd1b9a7d69" class=""><details open=""><summary><em>Bonus </em>: Stanford CS230: Deep Learning | Autumn 2018 | Lecture 4 - Adversarial Attacks / GANs</summary></details></h3><div class="indented"><figure id="2e7432e9-0c43-4cf8-99c0-dff14edc6048"><div class="source"><a href="https://www.youtube.com/watch?v=ANszao6YQuM">https://www.youtube.com/watch?v=ANszao6YQuM</a></div></figure></div><h3 id="45dd50e5-2448-461f-bc53-8848579dd4ae" class=""><details open=""><summary><em>Bonus</em> : Project Idea</summary></details></h3><div class="indented"><ul id="e8a09eba-a814-4068-8573-ffcabcf76ba7" class="bulleted-list"><li style="list-style-type:disc"><strong>Adversarial patches for Defense Industry
+</strong>Adversarial patches can be used in defense industry for defense purposes. It is possible to make a drone equipped with object detection overlook or miss a tank. I am openly sharing this idea as I am not interested in the security aspect of machine learning and deep learning.</li></ul><ul id="c9efd01a-51af-444c-9f94-ac52ad78e3fc" class="bulleted-list"><li style="list-style-type:disc"><strong>Adversarial Attack to Chat-GPT3
+</strong>Ways to find the weaknesses of the recently popular Chat GPT can be tried.</li></ul></div><h3 id="b33aaa5f-b75b-4b81-ac85-1fec2e637afb" class=""><details open=""><summary><em>Bonus </em>: Attacking Machine Learning with Adversarial Examples from Open AI </summary></details></h3><div class="indented"><figure id="40b309f9-c70f-4a91-a434-3fd174cb6eb7"><div class="source"><a href="https://openai.com/blog/adversarial-example-research/">https://openai.com/blog/adversarial-example-research/</a></div></figure></div><h3 id="1d331791-9250-4edd-87dc-87a4c0c257bc" class=""><details open=""><summary><em>Bonus </em>: Noise reduction (Denoisining)</summary></details></h3><div class="indented"><p id="6849dae9-aed4-4665-a083-634d777804a2" class=""><a href="https://en.wikipedia.org/wiki/Noise_reduction">https://en.wikipedia.org/wiki/Noise_reduction</a></p></div></div></div></article></body></html>

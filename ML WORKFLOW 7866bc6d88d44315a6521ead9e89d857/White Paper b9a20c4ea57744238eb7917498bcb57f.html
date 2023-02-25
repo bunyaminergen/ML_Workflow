@@ -1,0 +1,671 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>White Paper</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b9a20c4e-a577-4423-8eb7-917498bcb57f" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/nasa_fingerprints_of_water_on_the_sand.jpg" style="object-position:center 60%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://www.notion.so/icons/document_gray.svg"/></div><h1 class="page-title">White Paper</h1></header><div class="page-body"><h1 id="2a50f875-fe42-47eb-b3fa-ead7310f839b" class=""><details open=""><summary><strong>What is </strong>White Paper</summary></details></h1><div class="indented"><p id="ebc71f0b-c25d-400d-9aa6-2cb4decc5772" class="">A white paper is a formal document that outlines a company or organization&#x27;s view or plan on a particular topic, often used to introduce a new product, service or propose a solution to a problem.</p><p id="60175b68-343f-4b9a-9850-193f823e8db8" class="">White papers are often used to launch a previously announced product or service or to propose a solution to a problem. A white paper is similar to a research paper in length, detail, and technical descriptions, but its purpose is more focused on presenting a proposed solution or idea. White papers are typically published in a professional environment in the business or policy realm and are often written to help readers gain knowledge of a specific issue or industry.</p><ul id="1abae50a-1c74-4c01-bb8b-33498c6f8a2e" class="bulleted-list"><li style="list-style-type:disc">White papers are typically written by subject matter experts within a company or organization, or by third-party consultants who are hired to provide their expertise on a particular topic.</li></ul><ul id="17725a47-761d-4271-84bf-4e752ec3ed91" class="bulleted-list"><li style="list-style-type:disc">They often present data, research, and expert opinions to support the proposed solution or idea.</li></ul><ul id="1184dd0f-1873-48bc-b5a2-98fa426c1c42" class="bulleted-list"><li style="list-style-type:disc">White papers can be used for a variety of purposes, such as generating leads, establishing thought leadership, or influencing policy or decision-making.</li></ul><ul id="c19ed3da-3f20-4f5e-8495-ad74c6653927" class="bulleted-list"><li style="list-style-type:disc">They are usually longer than traditional marketing materials, such as brochures or product descriptions, and can range from a few pages to over a hundred pages in length.</li></ul><ul id="f50526bc-2242-493c-a737-4c3569e4365c" class="bulleted-list"><li style="list-style-type:disc">White papers may include technical details, diagrams, and charts to help explain complex concepts or solutions.</li></ul><ul id="0593a1cf-b21e-4802-941e-b16759fa9163" class="bulleted-list"><li style="list-style-type:disc">They are often used in industries such as technology, finance, healthcare, and government, but can be applied to any field where a company or organization wants to present its expertise on a particular issue.</li></ul><ul id="f5308504-d942-49ff-ba4d-cfbc5dc03569" class="bulleted-list"><li style="list-style-type:disc">White papers can be distributed in various formats, such as PDFs, ebooks, or online articles, and are often gated behind a form that readers must fill out before accessing the document.</li></ul><ul id="c91433ad-c2d8-4ea4-97eb-cba3360bc327" class="bulleted-list"><li style="list-style-type:disc">White papers are generally considered a form of content marketing, as they aim to provide value to the reader by educating them on a particular topic, rather than promoting a specific product or service.</li></ul></div><h1 id="ba46b133-205f-4160-af79-55530ecdaa55" class=""><details open=""><summary>Logic of White Paper</summary></details></h1><div class="indented"><p id="91518f8a-732a-4622-8619-1fec7f698318" class="">matematik formulu eger varsa</p><p id="d2106967-ee1a-46fe-bf6e-5bbac949daad" class="">formulun gorseli ve aciklanmasi, degiskenler neyi sembolize ettigi ne anlama geldigi falan </p><p id="057ea701-c1e3-4d36-a303-1fadfed153f1" class="">ayrica yapilan islemin arkasindaki mantik ( mesela padding islemi, pooling islemi gibi)</p><p id="3af4ee13-1f62-4d43-8d24-07265f514c3e" class="">neden yapilir, avantajlari ve dezavantajlari neler gibi</p></div><h1 id="48bc4ae6-bb65-43e2-a8f0-5d993e050925" class=""><details open=""><summary><strong>History of  </strong>White Paper</summary></details></h1><h1 id="4b6e21a2-92e3-4f67-a96d-024e3e5bb706" class=""><details open=""><summary>Methods of White Paper</summary></details></h1><h1 id="302da5be-5aa6-431a-b979-5d085674f17b" class=""><details open=""><summary>Most Common White Papers</summary></details></h1><h1 id="46ba35c7-3b7d-4328-8216-5cd3d146b778" class=""><details open=""><summary>How to perform White Paper</summary></details></h1><h1 id="a9497a5a-420b-4dc0-9485-f1f0566cb803" class=""><details open=""><summary>Examples of White Paper</summary></details></h1><div class="indented"><ul id="ab2ddc17-94c9-4ba7-ab31-cf98b95d6eb2" class="toggle"><li><details open=""><summary><strong>Churchill White Paper</strong></summary><figure id="139ca0e3-cbc9-4d11-9f9f-49ba04503077"><a href="https://en.wikipedia.org/wiki/Churchill_White_Paper" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Churchill White Paper</div><div class="bookmark-description">The Churchill White Paper of 3 June 1922 was drafted at the request of Winston Churchill, then Secretary of State for the Colonies, partly in response to the 1921 Jaffa Riots. The official name of the document was Palestine: Correspondence with the Palestine Arab Delegation and the Zionist Organisation. The white paper was made up of nine documents and &quot;Churchill&#x27;s memorandum&quot; was an enclosure to document number 5. While maintaining Britain&#x27;s commitment to the Balfour Declaration and its promise of a Jewish national home in Mandatory Palestine, the paper emphasized that the establishment of a national home would not impose a Jewish nationality on the Arab inhabitants of Palestine. To reduce tensions between the Arabs and Jews in Palestine the paper called for a limitation of Jewish immigration to the economic capacity of the country to absorb new arrivals. This limitation was considered a great setback to many in the Zionist movement, though it acknowledged that the Jews should be able to increase their numbers through immigration rather than sufferance.</div></div><div class="bookmark-href"><img src="https://en.wikipedia.org/static/apple-touch/wikipedia.png" class="icon bookmark-icon"/>https://en.wikipedia.org/wiki/Churchill_White_Paper</div></div><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Churchill_White_Paper_Correspondence_with_the_Palestine_Arab_Delegation_and_the_Zionist_Organisation._Presented_to_Parliament_by_Command_of_His_Majesty_June%2C_1922.djvu/page1-1200px-thumbnail.djvu.jpg" class="bookmark-image"/></a></figure></details></li></ul><ul id="1d2e6b1f-470d-45e7-aa44-da8c52cc70ac" class="toggle"><li><details open=""><summary><strong>Bitcoin: A Peer-to-Peer Electronic Cash System - </strong><em><strong>Satoshi Nakamoto</strong></em></summary><figure id="cce60029-170e-48e6-9ffc-0a450eaa4508"><div class="source"><a href="https://bitcoin.org/bitcoin.pdf">https://bitcoin.org/bitcoin.pdf</a></div></figure></details></li></ul><ul id="f837d4f1-052d-4203-804d-275cf0000425" class="toggle"><li><details open=""><summary><strong>What is Blockchain? The Beginner’s Guide to Blockchain - </strong><em><strong>Sharanya Shenoy</strong></em></summary><figure id="52d27261-d686-4de5-afd9-65bf92d190fb"><div class="source"><a href="https://www.version1.com/wp-content/uploads/2019/10/Blockchain-Whitepaper.pdf">https://www.version1.com/wp-content/uploads/2019/10/Blockchain-Whitepaper.pdf</a></div></figure></details></li></ul></div><h1 id="8c82f6c0-bfc1-41fb-a4ea-9ab3942d9cbe" class=""><details open=""><summary>Codes</summary></details></h1><h1 id="5124eedc-b59a-4707-bacd-b3d4b09a0b1e" class=""><details open=""><summary>Papers</summary></details></h1><div class="indented"><ul id="7bdea00e-f355-47bc-b3d6-81c694ef1dfd" class="toggle"><li><details open=""><summary><strong>How to Write a White Paper - Michael A. Stelzner</strong></summary><figure id="0576a072-91ae-478d-bb2e-a5874f4d271e"><div class="source"><a href="White%20Paper%20b9a20c4ea57744238eb7917498bcb57f/whitepapers_(1).pdf">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a9384e52-44c7-44fc-81bb-2af8234e6353/whitepapers_(1).pdf</a></div></figure></details></li></ul><ul id="831df88c-6a59-4ab5-b7c7-42833519927d" class="toggle"><li><details open=""><summary><strong>On Artificial Intelligence - A European approach to excellence and trust</strong></summary><figure id="365a9b59-d86e-49e3-aff9-d6b45ee08680"><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:52020DC0065&amp;from=EN" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">IMMC.COM%282020%2965%20final.ENG.xhtml.1_EN_ACT_part1_v12.docx</div></div><div class="bookmark-href">https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:52020DC0065&amp;from=EN</div></div></a></figure></details></li></ul></div><h1 id="140a17dc-a96b-4a3a-9f35-502823799f46" class=""><details open=""><summary>Pages </summary></details></h1><div class="indented"><ul id="d3cd1bc4-441d-4492-9d53-7920ddde1d91" class="toggle"><li><details open=""><summary><strong>Wikipedia Page of White Paper</strong></summary><figure id="9339be03-33e5-4a17-aa57-12d6998d5ac4"><a href="https://en.wikipedia.org/wiki/White_paper" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">White paper</div><div class="bookmark-description">A white paper is a report or guide that informs readers concisely about a complex issue and presents the issuing body&#x27;s philosophy on the matter. It is meant to help readers understand an issue, solve a problem, or make a decision. A white paper is the first document researchers should read to better understand a core concept or idea.</div></div><div class="bookmark-href"><img src="https://en.wikipedia.org/static/apple-touch/wikipedia.png" class="icon bookmark-icon"/>https://en.wikipedia.org/wiki/White_paper</div></div></a></figure></details></li></ul><ul id="21f899f7-b735-4de9-99c1-b817be60e1be" class="toggle"><li><details open=""><summary><strong>What Is Blockchain? A Beginner’s Guide for 2021</strong></summary><figure id="5dc2eb27-dda0-4860-8f48-f67aee0aea60"><a href="https://bootcamp.cvn.columbia.edu/blog/what-is-blockchain-beginners-guide/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">What Is Blockchain? A Beginner’s Guide for 2021 - Columbia Engineering Boot Camps</div></div><div class="bookmark-href"><img src="https://usa.bootcampcdn.com/wp-content/themes/Columbia-V3/media/favicon.ico" class="icon bookmark-icon"/>https://bootcamp.cvn.columbia.edu/blog/what-is-blockchain-beginners-guide/</div></div><img src="https://usa.bootcampcdn.com/wp-content/uploads/sites/108/2021/10/tes_fnt_blog_post_image_10.png" class="bookmark-image"/></a></figure></details></li></ul><ul id="7deb5615-6d15-44a5-a08e-35764d4b66a9" class="toggle"><li><details open=""><summary><strong>How to Write and Format a White Paper</strong></summary><figure id="975eedbc-e702-4949-9b28-056ed57149f3"><a href="https://www.foleon.com/topics/how-to-write-and-format-a-white-paper" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">How to Write and Format a White Paper (With Examples)</div><div class="bookmark-description">A white paper is an in-depth report or guide about a specific topic and the problems that surround it. It is meant to educate readers and help them to understand and solve an issue.</div></div><div class="bookmark-href"><img src="https://d1zs6vdxfcbd6s.cloudfront.net/marketing/production/assets/img/favicons/favicon-196x196.png" class="icon bookmark-icon"/>https://www.foleon.com/topics/how-to-write-and-format-a-white-paper</div></div><img src="https://www.foleon.com/hubfs/Frame%2016%20%281%29-1.png#keepProtocol" class="bookmark-image"/></a></figure></details></li></ul><ul id="8934e1d9-794a-434e-9a65-241faa389763" class="toggle"><li><details open=""><summary><strong>European Commission white papers</strong></summary><figure id="ee0d5932-7611-4c9b-bcfd-4679f292348b"><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=LEGISSUM:white_paper" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">EUR-Lex - white_paper - EN - EUR-Lex</div></div><div class="bookmark-href"><img src="https://eur-lex.europa.eu/images/eurlex.ico" class="icon bookmark-icon"/>https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=LEGISSUM:white_paper</div></div></a></figure></details></li></ul></div><h1 id="e56101fb-16f0-4f4b-8bb2-c93c007fc04c" class=""><details open=""><summary>Synonyms of White Paper</summary></details></h1><h1 id="36441b7b-77aa-4afc-bd7a-395e3d9cde73" class=""><details open=""><summary><em>Bonuses</em></summary></details></h1><div class="indented"><ul id="c7d92e34-09e6-4e74-a6b6-a5918d327041" class="toggle"><li><details open=""><summary> <em>Bonus</em>: <strong>Blue book</strong></summary><figure id="453c578a-ce65-490c-8a11-6e810cd0dec2"><a href="https://en.wikipedia.org/wiki/Blue_book" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Blue book</div><div class="bookmark-description">A blue book or bluebook is an almanac, buyer&#x27;s guide or other compilation of statistics and information. The term dates back to the 15th century, when large blue velvet-covered books were used for record-keeping by the Parliament of England.&amp;#91;1&amp;#93;  The Oxford English Dictionary first records such a usage in 1633.&amp;#91;2&amp;#93;
+The term has a variety of other meanings.</div></div><div class="bookmark-href"><img src="https://en.wikipedia.org/static/apple-touch/wikipedia.png" class="icon bookmark-icon"/>https://en.wikipedia.org/wiki/Blue_book</div></div><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Blue_Book_Chicago.jpg/220px-Blue_Book_Chicago.jpg" class="bookmark-image"/></a></figure><p id="309dc157-21c3-48e6-844c-cef3857058e8" class="">
+</p></details></li></ul></div></div></article></body></html>
